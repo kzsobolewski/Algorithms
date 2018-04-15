@@ -47,7 +47,7 @@ void randomize(int **arr,int  size, int qnt){
 }
 
 
-bool isSorted(int **arr, int size, int qnt){
+bool isSorted( int **arr, int size, int qnt){
   bool sorted = 1;
   for(int j = 0; j < qnt ; j++){
     for(int i =0; i<size ; i++)
