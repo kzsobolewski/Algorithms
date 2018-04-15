@@ -42,14 +42,14 @@ void print(int *arr, int size){
 void randomize(int **arr,int  size, int qnt){
   for(int j=0; j<qnt;j++){
     for(int i = 0 ; i < size ; i++)
-      arr[j][i] = rand()%201-100;
+      arr[j][i] = rand()%1000001-500000;
   }
 }
 
 
 bool isSorted(int **arr, int size, int qnt){
   bool sorted = 1;
-  for(int j = 0; j < size ; j++){
+  for(int j = 0; j < qnt ; j++){
     for(int i =0; i<size ; i++)
       if(arr[j][i] > arr[j][i+1]) sorted = 0;
   }
@@ -59,7 +59,7 @@ bool isSorted(int **arr, int size, int qnt){
 int main()
 {
   srand( time( NULL ) );
-  int size = 100;
+  int size = 10000;
   int quantity = 100;
   int ** array = new int * [quantity];
   for(int i = 0 ; i < quantity; i++)
@@ -69,12 +69,22 @@ int main()
   cout << "randomized!\n";
 
   cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
-  
+
+  double roznica;
+  cout.setf(ios::fixed); //notacja zwykla, czyli nie wywali wyniku typu 1.175000e+003
+  cout.precision(5); //liczba miejsc po przecinku, dokladnosc naszego wyniku
+  clock_t start, koniec; //inicjacja zmiennych zegarowych
+  start=clock(); //zapisanie czasu startu mierzenia
+
   for(int i = 0; i<quantity; i++)
     quickSort(array[i], 0, size-1);
+
+  koniec=clock();//zapisanie konca mierzenia
   cout << "sorted!\n";
 
   cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
 
+  roznica=(koniec-start)/(double)CLOCKS_PER_SEC;//obliczenie roznicy, czyli czasu wykonania
+  cout<<"Czas wykonania: "<<roznica << " sec"<<endl;
 
 }
