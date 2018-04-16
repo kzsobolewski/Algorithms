@@ -31,6 +31,11 @@ void quickSort( int *tab, int left, int right )
       quickSort( tab, l, right );
 }
 
+void reverse(int *tab, int left, int right){
+  if(left >= right) return;
+  swap(tab[left],tab[right]);
+  reverse(tab, left+1, right-1);
+}
 
 void print(int *arr, int size){
   for(int i =0; i<size; i++)
@@ -59,13 +64,17 @@ bool isSorted( int **arr, int size, int qnt){
 int main()
 {
   srand( time( NULL ) );
-  int size = 10000;
+  int size = 100;
   int quantity = 100;
   int ** array = new int * [quantity];
   for(int i = 0 ; i < quantity; i++)
     array[i] = new int[size];
 
   randomize(array,size, quantity);
+  for(int i = 0; i<quantity; i++){
+    quickSort(array[i], 0, size-1);
+    reverse(array[i],0,  size-1);
+  }
   cout << "randomized!\n";
 
   cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
