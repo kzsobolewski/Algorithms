@@ -8,8 +8,8 @@ using namespace std;
  * dla 100 tablic o losowych wartosciach
  *
  */
-
-void quickSort( int *tab, int left, int right )
+template<typename T>
+void quickSort( T *tab, int left, int right )
 {
     int l = left;
     int r = right;
@@ -31,28 +31,30 @@ void quickSort( int *tab, int left, int right )
       quickSort( tab, l, right );
 }
 
-void reverse(int *tab, int left, int right){
+template<typename T>
+void reverse(T *tab, int left, int right){
   if(left >= right) return;
   swap(tab[left],tab[right]);
   reverse(tab, left+1, right-1);
 }
 
-void print(int *arr, int size){
+template<typename T>
+void print(T *arr, int size){
   for(int i =0; i<size; i++)
     cout << arr[i] << "  ";
   cout << endl;
 }
 
-
-void randomize(int **arr,int  size, int qnt){
+template<typename T>
+void randomize(T **arr,int  size, int qnt){
   for(int j=0; j<qnt;j++){
     for(int i = 0 ; i < size ; i++)
       arr[j][i] = rand()%1000001-500000;
   }
 }
 
-
-bool isSorted( int **arr, int size, int qnt){
+template<typename T>
+bool isSorted( T **arr, int size, int qnt){
   bool sorted = 1;
   for(int j = 0; j < qnt ; j++){
     for(int i =0; i<size ; i++)
@@ -61,39 +63,44 @@ bool isSorted( int **arr, int size, int qnt){
   return sorted;
 }
 
+template<typename T>
+void sortPart(T **arr, int size, int qnt, double perc){
+  int index = (size-1)*perc;
+  for(int i = 0; i<qnt; i++){
+    quickSort(arr[i],0,index);
+  }
+}
+
 int main()
 {
   srand( time( NULL ) );
-  int size = 100;
+  int size = 100000;
   int quantity = 100;
+
+  cout << "\nSorting 100 arrays with " << size << " elements\n";
   int ** array = new int * [quantity];
   for(int i = 0 ; i < quantity; i++)
     array[i] = new int[size];
 
   randomize(array,size, quantity);
-  for(int i = 0; i<quantity; i++){
-    quickSort(array[i], 0, size-1);
-    reverse(array[i],0,  size-1);
-  }
   cout << "randomized!\n";
 
   cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
 
-  double roznica;
+  double measuredTime;
   cout.setf(ios::fixed); //notacja zwykla, czyli nie wywali wyniku typu 1.175000e+003
   cout.precision(5); //liczba miejsc po przecinku, dokladnosc naszego wyniku
-  clock_t start, koniec; //inicjacja zmiennych zegarowych
+  clock_t start, stop; //inicjacja zmiennych zegarowych
   start=clock(); //zapisanie czasu startu mierzenia
 
   for(int i = 0; i<quantity; i++)
     quickSort(array[i], 0, size-1);
 
-  koniec=clock();//zapisanie konca mierzenia
+  stop=clock();//zapisanie konca mierzenia
   cout << "sorted!\n";
 
   cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
 
-  roznica=(koniec-start)/(double)CLOCKS_PER_SEC;//obliczenie roznicy, czyli czasu wykonania
-  cout<<"Czas wykonania: "<<roznica << " sec"<<endl;
-
+  measuredTime=(stop-start)/(double)CLOCKS_PER_SEC;//obliczenie roznicy, czyli czasu wykonania
+  cout<<"Time: "<< measuredTime << " sec"<<endl << endl;
 }
