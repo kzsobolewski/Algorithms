@@ -1,8 +1,11 @@
-__start__: a.out
-	./a.out
+__start__: output
+	./output
 
-a.out : quickSort.cpp
-	g++ -Wall -std=c++11 -pedantic quickSort.cpp
+output : main.o
+	g++ main.o -o output
+
+main.o : main.cpp	quickSort.hh array.hh margeSort.hh
+	g++ -c -Wall -std=c++11 -pedantic main.cpp
 
 clear:
-	rm -f a.out
+	rm -f output
