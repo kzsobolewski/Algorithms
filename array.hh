@@ -10,6 +10,12 @@ void reverse(T *tab, int left, int right){
 }
 
 template<typename T>
+void reverseAll(T **arr, int size, int qnt){
+  for(int i = 0; i< qnt; i++)
+    reverse(arr[i], 0 , size-1);
+}
+
+template<typename T>
 void print(T *tab, int size){
   for(int i =0; i<size; i++)
     cout << tab[i] << "  ";
@@ -20,8 +26,17 @@ template<typename T>
 void randomize(T **arr,int  size, int qnt){
   for(int j=0; j<qnt;j++){
     for(int i = 0 ; i < size ; i++)
-    //  arr[j][i] = rand()%1000001-500000;
-      arr[j][i] = rand()%100;
+      arr[j][i] = rand()%1000001-500000;
+    //  arr[j][i] = rand()%100;
+  }
+}
+
+template<typename T>
+void order(T **arr,int  size, int qnt){
+  int num =500000;
+  for(int j=0; j<qnt;j++){
+    for(int i = 0 ; i < size ; i++)
+      arr[j][i] = num--;
   }
 }
 

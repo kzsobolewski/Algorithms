@@ -14,39 +14,76 @@ using namespace std;
  *
  */
 
+template<typename T>
+double sortTest(T **arr, int siz, int qnt){
+  clock_t start, stop;
+  double sortTime;
+
+  start = clock();
+  for(int i = 0; i<qnt; i++)
+    QuickSortRecursive(arr[i], 0, siz-1);
+  stop = clock();
+
+  sortTime = (stop-start)/(double)CLOCKS_PER_SEC;
+  return sortTime;
+}
+
+
+template<typename T>
+void result(T ** array, int size, int quantity, double perc){
+  double sortTime;
+
+  randomize(array, size, quantity);
+  perc = perc/100;
+  sortPart(array, size, quantity, perc);
+  sortTime = sortTest(array, size, quantity);
+  if( isSorted(array, size - 1, quantity) ){
+    perc = perc*100;
+    cout << perc << "% sorted: " << sortTime << " sec\n";
+  } else cerr << "error: elements not sorted\n";
+}
+
+
+template<typename T>
+void test(T **array, int size, int quantity){
+  cout << "sorting " << size << " elements\n";
+  double sortTime;
+/*
+  randomize(array, size, quantity);
+  sortTime = sortTest(array, size, quantity);
+  if( isSorted(array, size - 1, quantity) ){
+    cout << "All random: " << sortTime << " sec\n";
+  } else cerr << "error: elements not sorted\n";
+
+
+  result(array, size, quantity, 25);
+  //cout << "dup\n";
+
+  result(array, size, quantity, 50);
+  result(array, size, quantity, 75);
+  result(array, size, quantity, 95);
+  result(array, size, quantity, 99);
+*/
+  result(array, size, quantity, 99.7);
+
+  reverseAll(array, size, quantity);
+  sortTime = sortTest(array, size, quantity);
+  if( isSorted(array, size -1, quantity) ){
+    cout << "Reversed order: " << sortTime << " sec\n";
+  } else cerr << "error: elements not sorted\n";
+
+}
 
 int main()
 {
   srand( time( NULL ) );
-  int size = 100000;
+  int size = 10000;
   int quantity = 100;
 
-  cout << "\nSorting 100 arrays with " << size << " elements\n";
   int ** array = new int * [quantity];
   for(int i = 0 ; i < quantity; i++)
     array[i] = new int[size];
 
-  randomize(array,size, quantity);
-  cout << "randomized!\n";
-
-  cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
-
-  double measuredTime;
-  cout.setf(ios::fixed); //notacja zwykla, czyli nie wywali wyniku typu 1.175000e+003
-  cout.precision(5); //liczba miejsc po przecinku, dokladnosc naszego wyniku
-  clock_t start, stop; //inicjacja zmiennych zegarowych
-  start=clock(); //zapisanie czasu startu mierzenia
-
-    //quickSort(array[i], 0, size-1);
-    for(int i = 0; i<quantity; i++)
-      mergeSort(array[i], 0, size-1);
-
-  stop=clock();//zapisanie konca mierzenia
-  cout << "sorted!\n";
-
-  cout << "sort test: " << isSorted(array, size-1, quantity) << endl;
-
-  measuredTime=(stop-start)/(double)CLOCKS_PER_SEC;//obliczenie roznicy, czyli czasu wykonania
-  cout<<"Time: "<< measuredTime << " sec"<<endl << endl;
+  test(array, size, quantity);
   delete [] array;
 }
