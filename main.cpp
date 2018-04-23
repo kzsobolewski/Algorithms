@@ -18,7 +18,7 @@ using namespace std;
 int main()
 {
   srand( time( NULL ) );
-  int size = 10;
+  int size = 100000;
   int quantity = 100;
 
   cout << "\nSorting 100 arrays with " << size << " elements\n";
@@ -38,11 +38,8 @@ int main()
   start=clock(); //zapisanie czasu startu mierzenia
 
     //quickSort(array[i], 0, size-1);
-    print(array[0], size);
     for(int i = 0; i<quantity; i++)
-    mergeSort(array[i], 0, size-1);
-    cout << endl << endl;
-    print(array[0], size);
+      mergeSort(array[i], 0, size-1);
 
   stop=clock();//zapisanie konca mierzenia
   cout << "sorted!\n";
@@ -51,4 +48,5 @@ int main()
 
   measuredTime=(stop-start)/(double)CLOCKS_PER_SEC;//obliczenie roznicy, czyli czasu wykonania
   cout<<"Time: "<< measuredTime << " sec"<<endl << endl;
+  delete [] array;
 }
