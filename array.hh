@@ -27,7 +27,7 @@ void randomize(T **arr,int  size, int qnt){
   for(int j=0; j<qnt;j++){
     for(int i = 0 ; i < size ; i++)
       arr[j][i] = rand()%1000001-500000;
-    //  arr[j][i] = rand()%100;
+      //arr[j][i] = rand()%10;
   }
 }
 
